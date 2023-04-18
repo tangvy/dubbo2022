@@ -5,12 +5,35 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>tang-common</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <groupId>com.tangv</groupId>
 
-    <parent>
+    <!--<parent>
         <groupId>com.tangv</groupId>
         <artifactId>dubbo2022</artifactId>
         <version>1.0-SNAPSHOT</version>
-    </parent>
+    </parent>-->
+    <!--<parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.2.RELEASE</version>
+        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;
+    </parent>-->
+
+    <properties>
+        <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+        <hutool.version>5.8.13</hutool.version>
+        <mybatis.version>3.5.3.1</mybatis.version>
+        <mysql.version>8.0.32</mysql.version>
+        <lombok.version>1.18.16</lombok.version>
+        <pagehelper.version>1.3.0</pagehelper.version>
+        <druid.version>1.2.4</druid.version>
+        <junit.version>4.13.2</junit.version>
+        <canal.version>1.1.6</canal.version>
+        <spring-kafka.version>2.7.11</spring-kafka.version>
+        <fastjson.version>2.0.26</fastjson.version>
+        <spring-dubbo.version>3.1.0</spring-dubbo.version>
+    </properties>
 
     <dependencies>
         <!-- lombok -->
@@ -18,18 +41,21 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+            <version>${lombok.version}</version>
         </dependency>
 
         <!--aop-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+            <version>${spring-boot.version}</version>
         </dependency>
 
         <!-- mybatis -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis.version}</version>
         </dependency>
     </dependencies>
 
@@ -42,6 +68,12 @@
                     <source>11</source>
                     <target>11</target>
                     <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
                 </configuration>
             </plugin>
         </plugins>
