@@ -159,7 +159,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.tangv.core.OmsCoreApplication</mainClass>
+                    <mainClass>OmsCoreApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
