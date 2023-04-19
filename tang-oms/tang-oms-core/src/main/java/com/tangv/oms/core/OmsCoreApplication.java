@@ -6,6 +6,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * author:   tangwei
@@ -16,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @MapperScan("com.tangv.oms.core.dao")
 @ImportAutoConfiguration({DruidDataSourceAutoConfigure.class})
+@ComponentScan(basePackages = "com.tangv")
 public class OmsCoreApplication {
     public static void main(String[] args) {
         SpringApplication.run(OmsCoreApplication.class,args);

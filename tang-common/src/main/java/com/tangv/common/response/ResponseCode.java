@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 public enum ResponseCode {
 
-   SUCCESS(200,"success"),
+    SUCCESS(200,"success"),
 
     ERROR(500,"error"),
 
