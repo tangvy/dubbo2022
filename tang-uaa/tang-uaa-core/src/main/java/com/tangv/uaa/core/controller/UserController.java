@@ -6,7 +6,10 @@ package com.tangv.uaa.core.controller;
 
 import com.tangv.common.response.Response;
 import com.tangv.uaa.core.service.UserBizService;
+import com.tangv.uaa.facade.user.vo.UserVo;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,10 +26,9 @@ public class UserController {
     @Resource
     private UserBizService userBizService;
 
-    @GetMapping("/test")
-    public Response test() {
-        userBizService.test();
-        return Response.success();
+    @GetMapping("/{user_id}")
+    public Response<UserVo> loadById(@PathVariable("user_id") Long userid) {
+        UserVo userVo = userBizService.loadById(userid);
+        return Response.success(userVo);
     }
-
 }

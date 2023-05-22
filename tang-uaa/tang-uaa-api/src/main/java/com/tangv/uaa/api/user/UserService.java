@@ -4,12 +4,15 @@
  */
 package com.tangv.uaa.api.user;
 
+import com.tangv.uaa.facade.user.vo.UserVo;
+
 /**
  * @author tang wei
  * @version UserService.java, v 0.1 2023/5/22 12:29 tang wei Exp $
  */
 public interface UserService {
 
-    void test();
+    UserVo loadUserByUsername(String username);
 
+    UserVo loadById(Long userId);
 }
