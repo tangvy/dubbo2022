@@ -2,11 +2,11 @@
  * shipper.id Inc.
  * Copyright (c) 2018-2022 All Rights Reserved.
  */
-package com.tangv.oms.core.service;
+package com.tangv.oms.api.goods;
 
 import com.github.pagehelper.PageInfo;
-import com.tangv.oms.core.model.dto.GoodsSearchDTO;
-import com.tangv.oms.core.model.entity.Goods;
+import com.tangv.oms.facade.goods.dto.GoodsSearchDTO;
+import com.tangv.oms.facade.goods.vo.GoodsVo;
 
 import java.util.Collection;
 
@@ -16,9 +16,9 @@ import java.util.Collection;
  */
 public interface GoodsService {
 
-    void insertGoods(Goods goods);
+    void insertGoods(GoodsVo goods);
 
     void stackingGoods(Collection<Long> goodsIds);
 
-    PageInfo<Goods> getPage(GoodsSearchDTO goodsSearchDTO);
+    PageInfo<GoodsVo> getPage(GoodsSearchDTO goodsSearchDTO);
 }

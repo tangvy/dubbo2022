@@ -1,4 +1,4 @@
-package com.tangv.oms.core.service;
+package com.tangv.oms.api.order;
 
 /**
  * shipper.id Inc.

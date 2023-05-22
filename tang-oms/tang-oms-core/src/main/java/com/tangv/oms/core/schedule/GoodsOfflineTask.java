@@ -2,8 +2,8 @@ package com.tangv.oms.core.schedule;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.tangv.common.util.DateUtil;
+import com.tangv.oms.api.goods.GoodsService;
 import com.tangv.oms.core.consts.RedisConst;
-import com.tangv.oms.core.service.GoodsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -7,10 +7,12 @@ import com.github.pagehelper.PageInfo;
 import com.tangv.common.enums.CodeType;
 import com.tangv.common.util.DateUtil;
 import com.tangv.common.util.NumUtil;
+import com.tangv.oms.api.goods.GoodsService;
 import com.tangv.oms.core.consts.RedisConst;
 import com.tangv.oms.core.dao.GoodsMapper;
-import com.tangv.oms.core.model.dto.GoodsSearchDTO;
 import com.tangv.oms.core.model.entity.Goods;
+import com.tangv.oms.facade.goods.dto.GoodsSearchDTO;
+import com.tangv.oms.facade.goods.vo.GoodsVo;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -33,7 +35,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private RedisTemplate redisTemplate;
     
-    public void insertGoods(Goods goods) {
+    public void insertGoods(GoodsVo goods) {
         goods.setGoodsCode(NumUtil.getCode(CodeType.GOODS_CODE));
         goods.setStackingTime(LocalDateTime.now());
         //goodsMapper.insertSelective(goods);
@@ -48,10 +50,10 @@ public class GoodsServiceImpl implements GoodsService {
         }
     }
 
-    public PageInfo<Goods> getPage(GoodsSearchDTO goodsSearchDTO) {
-        Page<Goods> page = PageHelper.startPage(goodsSearchDTO.getPage(), goodsSearchDTO.getSize());
-        goodsMapper.getGoodsList(goodsSearchDTO);
-        PageInfo<Goods> goodsPageInfo = new PageInfo<>(page.getResult());
+    public PageInfo<GoodsVo> getPage(GoodsSearchDTO goodsSearchDTO) {
+        /*Page<Goods> page = PageHelper.startPage(goodsSearchDTO.getPage(), goodsSearchDTO.getSize());
+        goodsMapper.getGoodsList(goodsSearchDTO);*/
+        PageInfo<GoodsVo> goodsPageInfo = new PageInfo<>();
         return goodsPageInfo;
     }
 }

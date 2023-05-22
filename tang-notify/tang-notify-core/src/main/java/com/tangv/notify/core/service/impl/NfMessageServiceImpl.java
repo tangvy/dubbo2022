@@ -18,11 +18,16 @@ import java.util.Date;
  * @author tang wei
  * @version NfMessageServiceImpl.java, v 0.1 2023/4/18 19:36 tang wei Exp $
  */
-@DubboService
+@DubboService(timeout = 1000)
 public class NfMessageServiceImpl implements NfMessageService {
 
     @Override
     public MessageVo selectById(Long id) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         MessageVo nfMessage = new MessageVo();
         nfMessage.setMsgId(id);
         nfMessage.setGmtCreate(new Date());

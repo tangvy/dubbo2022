@@ -4,9 +4,9 @@
  */
 package com.tangv.oms.core.service.impl;
 
+import com.tangv.oms.api.order.OmsOrderService;
 import com.tangv.oms.core.dao.OmsOrderMapper;
 import com.tangv.oms.core.model.entity.OmsOrder;
-import com.tangv.oms.core.service.OmsOrderService;
 import com.tangv.oms.facade.order.vo.OrderVo;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;

@@ -1,4 +1,4 @@
-package com.tangv.oms.core.model.dto;
+package com.tangv.oms.facade.goods.dto;
 
 import com.tangv.common.base.entity.PageDTO;
 
@@ -7,7 +7,6 @@ import com.tangv.common.base.entity.PageDTO;
  * Date:     2020/12/26 11:42
  * Description:
  */
-
 public class GoodsSearchDTO extends PageDTO {
 
     private String goodsCode;
