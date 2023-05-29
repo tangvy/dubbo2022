@@ -4,7 +4,7 @@
  */
 package com.tangv.uaa.core.security.filter;
 
-import com.tangv.uaa.core.UaaConst;
+import com.tangv.uaa.core.consts.UaaConst;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

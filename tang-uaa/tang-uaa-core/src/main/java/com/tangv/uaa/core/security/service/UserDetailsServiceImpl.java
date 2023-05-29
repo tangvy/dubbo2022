@@ -2,11 +2,13 @@
  * shipper.id Inc.
  * Copyright (c) 2018-2022 All Rights Reserved.
  */
-package com.tangv.uaa.core.service.security;
+package com.tangv.uaa.core.security.service;
 
 import com.tangv.common.exception.BusinessException;
+import com.tangv.uaa.core.security.model.GrantedAuthVo;
 import com.tangv.uaa.core.service.UserBizService;
 import com.tangv.uaa.facade.user.vo.UserVo;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author tang wei
@@ -32,7 +36,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (userVo == null) {
             throw new BusinessException(500, "用户不存在!");
         }
-        User userDetails = new User(userVo.getUsername(), userVo.getPassword(), new ArrayList<>());
+        List<String> authList = userBizService.loadAuthByUserId(userVo.getUserId());
+        List<GrantedAuthority> grantedAuthorityList = authList.stream().map(auth -> (GrantedAuthority) () -> auth).collect(Collectors.toList());
+        User userDetails = new User(userVo.getUsername(), userVo.getPassword(), grantedAuthorityList);
         return userDetails;
     }
 }

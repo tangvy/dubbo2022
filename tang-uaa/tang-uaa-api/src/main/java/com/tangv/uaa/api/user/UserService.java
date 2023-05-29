@@ -4,7 +4,10 @@
  */
 package com.tangv.uaa.api.user;
 
+import com.tangv.uaa.facade.user.vo.AuthVo;
 import com.tangv.uaa.facade.user.vo.UserVo;
+
+import java.util.List;
 
 /**
  * @author tang wei
@@ -15,4 +18,8 @@ public interface UserService {
     UserVo loadUserByUsername(String username);
 
     UserVo loadById(Long userId);
+
+    List<AuthVo> loadByUserId(Long userId);
+
+    List<String> loadAuthByUserId(Long userId);
 }

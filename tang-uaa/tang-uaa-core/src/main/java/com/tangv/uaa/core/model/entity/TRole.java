@@ -1,22 +1,16 @@
 package com.tangv.uaa.core.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
 
-@TableName("user")
-public class User implements Serializable {
+public class TRole implements Serializable {
 
-    @TableId(value = "user_id")
-    private Long userId;
+    @TableId("role_id")
+    private Long roleId;
 
-    private String username;
-
-    private String password;
-
-    private String fullName;
+    private String roleName;
 
     private Boolean disabled;
 
@@ -28,36 +22,20 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Long getUserId() {
-        return userId;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName == null ? null : fullName.trim();
+    public void setRoleName(String roleName) {
+        this.roleName = roleName == null ? null : roleName.trim();
     }
 
     public Boolean getDisabled() {
@@ -98,10 +76,8 @@ public class User implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", userId=").append(userId);
-        sb.append(", username=").append(username);
-        sb.append(", password=").append(password);
-        sb.append(", fullName=").append(fullName);
+        sb.append(", roleId=").append(roleId);
+        sb.append(", roleName=").append(roleName);
         sb.append(", disabled=").append(disabled);
         sb.append(", deleted=").append(deleted);
         sb.append(", createTime=").append(createTime);

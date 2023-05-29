@@ -2,7 +2,7 @@
  * shipper.id Inc.
  * Copyright (c) 2018-2022 All Rights Reserved.
  */
-package com.tangv.uaa.core;
+package com.tangv.uaa.core.consts;
 
 /**
  * @author tang wei

@@ -3,7 +3,7 @@ package com.tangv.uaa.core.config.mysql; /**
  * Copyright (c) 2018-2022 All Rights Reserved.
  */
 
-import com.tangv.uaa.core.UaaConst;
+import com.tangv.uaa.core.consts.UaaConst;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
