@@ -7,12 +7,12 @@
         <module>tang-uaa-core</module>
     </modules>
 
-    <parent>
+    <!--<parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.3.2.RELEASE</version>
         <relativePath/>
-    </parent>
+    </parent>-->
 
     <groupId>com.tangv</groupId>
     <artifactId>tang-uaa</artifactId>
@@ -36,10 +36,36 @@
         <spring-dubbo.version>3.1.0</spring-dubbo.version>
         <security-jwt>1.1.0.RELEASE</security-jwt>
         <jedis.version>3.3.0</jedis.version>
+        <alibaba.version>2.2.6.RELEASE</alibaba.version>
+        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
+        <cloud.oauth2>2.2.5.RELEASE</cloud.oauth2>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--alibaba cloud-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--springboot 2.3.2.RELEASE-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!--hutool-->
             <dependency>
                 <groupId>cn.hutool</groupId>
@@ -106,34 +132,31 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
-            <!-- Dubbo -->
-            <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-bom</artifactId>
-                <version>${spring-dubbo.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
-                <version>${spring-dubbo.version}</version>
-                <type>pom</type>
-            </dependency>
-
             <!--spring security的依赖-->
-            <dependency>
+            <!--<dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
 
-            <!--OAuth2的依赖-->
+            &lt;!&ndash;OAuth2的依赖&ndash;&gt;
             <dependency>
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
                 <version>${spring-boot.version}</version>
+            </dependency>-->
+            <!--spring security的依赖-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-security</artifactId>
+                <version>${cloud.oauth2}</version>
+            </dependency>
+
+            <!--OAuth2的依赖-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-oauth2</artifactId>
+                <version>${cloud.oauth2}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security</groupId>

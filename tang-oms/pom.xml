@@ -37,6 +37,7 @@
         <spring-kafka.version>2.7.11</spring-kafka.version>
         <fastjson.version>2.0.26</fastjson.version>
         <spring-dubbo.version>3.1.0</spring-dubbo.version>
+        <alibaba.version>2.2.6.RELEASE</alibaba.version>
     </properties>
 
     <dependencyManagement>
@@ -107,20 +108,21 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
-            <!-- Dubbo -->
+            <!--alibaba cloud-->
             <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-bom</artifactId>
-                <version>${spring-dubbo.version}</version>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
+            <!--springboot 2.3.2.RELEASE-->
             <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-dependencies-zookeeper-curator5</artifactId>
-                <version>${spring-dubbo.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
         </dependencies>

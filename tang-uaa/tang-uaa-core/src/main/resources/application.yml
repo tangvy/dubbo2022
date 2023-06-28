@@ -5,6 +5,9 @@ spring:
   profiles:
     active: dev
 
+  application:
+    name: tang-uaa
+
   datasource:
     druid:
       initial-size: 2

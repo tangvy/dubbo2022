@@ -17,6 +17,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.util.List;
@@ -39,6 +40,12 @@ public class GlobalDefaultExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Response handlerNoHandlerFoundException(NoHandlerFoundException e) {
         outPutErrorWarn(NoHandlerFoundException.class, SystemState.NOT_FOUND, e);
+        return Response.error(SystemState.NOT_FOUND);
+    }
+
+    @ExceptionHandler(HttpClientErrorException.Forbidden.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Response handleForbiddenException(HttpClientErrorException.Forbidden forbidden) {
         return Response.error(SystemState.NOT_FOUND);
     }
 
