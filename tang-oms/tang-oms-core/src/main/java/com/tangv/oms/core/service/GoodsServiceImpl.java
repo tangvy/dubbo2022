@@ -1,8 +1,6 @@
 package com.tangv.oms.core.service;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangv.common.enums.CodeType;
 import com.tangv.common.util.DateUtil;
@@ -10,9 +8,8 @@ import com.tangv.common.util.NumUtil;
 import com.tangv.oms.api.goods.GoodsService;
 import com.tangv.oms.core.consts.RedisConst;
 import com.tangv.oms.core.dao.GoodsMapper;
-import com.tangv.oms.core.model.entity.Goods;
-import com.tangv.oms.facade.goods.dto.GoodsSearchDTO;
-import com.tangv.oms.facade.goods.vo.GoodsVo;
+import com.tangv.oms.facade.domain.goods.dto.GoodsSearchDTO;
+import com.tangv.oms.facade.domain.goods.vo.GoodsVo;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

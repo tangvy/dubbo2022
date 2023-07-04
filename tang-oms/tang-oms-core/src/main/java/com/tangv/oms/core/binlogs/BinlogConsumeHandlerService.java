@@ -5,8 +5,8 @@
 package com.tangv.oms.core.binlogs;
 
 import com.alibaba.fastjson.JSONObject;
-import com.tangv.common.enums.BinlogConsumeTableEnum;
-import com.tangv.common.enums.BinlogOperationTypeEnum;
+import com.tangv.common.enums.binlogs.BinlogConsumeTableEnum;
+import com.tangv.common.enums.binlogs.BinlogOperationTypeEnum;
 import com.tangv.oms.core.binlogs.model.BinlogMessage;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

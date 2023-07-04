@@ -1,7 +1,7 @@
 package com.tangv.oms.core.dao;
 
 import com.tangv.oms.core.model.entity.Goods;
-import com.tangv.oms.facade.goods.dto.GoodsSearchDTO;
+import com.tangv.oms.facade.domain.goods.dto.GoodsSearchDTO;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;

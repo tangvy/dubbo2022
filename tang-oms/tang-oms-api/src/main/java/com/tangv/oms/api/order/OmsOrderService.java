@@ -6,7 +6,9 @@ package com.tangv.oms.api.order;
  */
 
 
-import com.tangv.oms.facade.order.vo.OrderVo;
+import com.github.pagehelper.PageInfo;
+import com.tangv.oms.facade.domain.order.dto.OrderDownloadDto;
+import com.tangv.oms.facade.domain.order.vo.OrderVo;
 
 /**
  * @author tang wei
@@ -15,5 +17,11 @@ import com.tangv.oms.facade.order.vo.OrderVo;
 public interface OmsOrderService {
 
     OrderVo queryOrderByCode(String orderCode);
+
+    void downloadOrder(OrderDownloadDto orderDownloadDto);
+
+    Integer countOrder(OrderDownloadDto orderDownloadDto);
+
+    PageInfo<OrderVo> queryPage(OrderDownloadDto orderDownloadDto, Integer pageSize, Integer pageNum);
 
 }

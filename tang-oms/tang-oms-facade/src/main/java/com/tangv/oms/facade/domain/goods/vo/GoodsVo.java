@@ -1,4 +1,4 @@
-package com.tangv.oms.facade.goods.vo;
+package com.tangv.oms.facade.domain.goods.vo;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.tangv.common.base.entity.BasePojo;

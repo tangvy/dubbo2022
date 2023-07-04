@@ -12,6 +12,8 @@ public enum DataBaseType {
     TANG_FEATURE1,
 
     CANAL_TANGV,
+
+    TANG_OMS,
     ;
 
 }

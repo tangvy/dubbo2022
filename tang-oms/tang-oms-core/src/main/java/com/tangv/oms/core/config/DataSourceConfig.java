@@ -58,9 +58,9 @@ public class DataSourceConfig {
     /**
      * 数据源:mysql数据库canal_tangv
      */
-    @Bean(name = "canalTangv")
-    @ConfigurationProperties(prefix = "spring.datasource.druid.canal-tangv")
-    public DataSource canalTangv() {
+    @Bean(name = "tangOms")
+    @ConfigurationProperties(prefix = "spring.datasource.druid.tang-oms")
+    public DataSource tangOms() {
         return DruidDataSourceBuilder.create().build();
     }
 
@@ -71,13 +71,13 @@ public class DataSourceConfig {
     @Primary
     public DynamicDataSource dataSource(/*@Qualifier("feature") DataSource feature,
                                         @Qualifier(value = "feature1") DataSource feature1,*/
-                                        @Qualifier(value = "canalTangv") DataSource canalTangv) {
+                                        @Qualifier(value = "tangOms") DataSource tangOms) {
         Map<Object, Object> targetDataSources = new HashMap<>(3);
         //targetDataSources.put(DataBaseType.TANG_FEATURE,feature);
         //targetDataSources.put(DataBaseType.TANG_FEATURE1,feature1);
-        targetDataSources.put(DataBaseType.CANAL_TANGV,canalTangv);
+        targetDataSources.put(DataBaseType.TANG_OMS,tangOms);
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
-        dynamicDataSource.setDefaultTargetDataSource(canalTangv);
+        dynamicDataSource.setDefaultTargetDataSource(tangOms);
         dynamicDataSource.setTargetDataSources(targetDataSources);
         return dynamicDataSource;
     }

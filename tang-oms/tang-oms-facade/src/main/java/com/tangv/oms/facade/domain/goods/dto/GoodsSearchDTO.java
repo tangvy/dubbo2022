@@ -1,4 +1,4 @@
-package com.tangv.oms.facade.goods.dto;
+package com.tangv.oms.facade.domain.goods.dto;
 
 import com.tangv.common.base.entity.PageDTO;
 

@@ -5,7 +5,7 @@
 package com.tangv.oms.core.binlogs;
 
 import com.alibaba.fastjson.JSONObject;
-import com.tangv.common.enums.BinlogConsumeTableEnum;
+import com.tangv.common.enums.binlogs.BinlogConsumeTableEnum;
 
 /**
  * @author tang wei

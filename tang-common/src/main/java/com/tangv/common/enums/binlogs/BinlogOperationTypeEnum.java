@@ -2,7 +2,7 @@
  * shipper.id Inc.
  * Copyright (c) 2018-2022 All Rights Reserved.
  */
-package com.tangv.common.enums;
+package com.tangv.common.enums.binlogs;
 
 import lombok.Setter;
 

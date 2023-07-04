@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tangv.oms.core.dao.TStreamTaskMapper">
+    <update id="updateStatusByIds">
+        update t_stream_task
+        set task_status = #{targetStatus}
+        where task_status = #{prevStatus}
+        and task_id in
+        <foreach collection="taskIdList" open="(" close=")" item="item" separator=",">
+            #{item}
+        </foreach>
+    </update>
+    <update id="updateStatusById">
+        update t_stream_task
+        set task_status = #{targetStatus}, version = #{version}, remark = #{remark}, cost_time = #{cost}, next_request_time = #{nextRequestTime}
+        where task_id = #{taskId}
+    </update>
+    <select id="findWaitTasks" resultType="com.tangv.oms.facade.domain.order.vo.TStreamTaskVo">
+        select * from t_stream_task
+        where
+            task_status = 0
+            and next_request_time <![CDATA[<]]> NOW()
+            and task_type IN
+            <foreach collection="taskTypes" separator="," item="item" open="(" close=")">
+                #{item}
+            </foreach>
+            order by task_id ASC
+            limit #{limit}
+            <if test="locked">
+                for update
+            </if>
+    </select>
+</mapper>

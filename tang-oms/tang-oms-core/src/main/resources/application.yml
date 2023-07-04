@@ -2,6 +2,10 @@ server:
   port: 9900
 
 spring:
+
+  application:
+    name: tang-oms
+
   profiles:
     active: dev
 
@@ -18,10 +22,10 @@ spring:
       filter:
         wall,stat,slf4j
 
-      canal-tangv:
-        url: jdbc:mysql://localhost:3306/canal_tangv?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+      tang-oms:
+        url: jdbc:mysql://localhost:3306/tang_oms?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
         username: root
-        password: 123456
+        password: root123456
         driver-class-name: com.mysql.cj.jdbc.Driver
 
   redis:

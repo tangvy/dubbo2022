@@ -63,6 +63,13 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis.version}</version>
         </dependency>
+
+        <!--hutool-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

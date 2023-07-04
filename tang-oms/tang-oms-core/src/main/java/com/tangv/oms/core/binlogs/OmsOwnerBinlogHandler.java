@@ -6,8 +6,8 @@ package com.tangv.oms.core.binlogs;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tangv.common.annotations.DataBase;
-import com.tangv.common.enums.BinlogConsumeTableEnum;
 import com.tangv.common.enums.DataBaseType;
+import com.tangv.common.enums.binlogs.BinlogConsumeTableEnum;
 import com.tangv.oms.core.binlogs.model.OmsOwnerBinlog;
 import com.tangv.oms.core.dao.OmsOwnerSyncMapper;
 import com.tangv.oms.core.model.entity.OmsOwnerSync;

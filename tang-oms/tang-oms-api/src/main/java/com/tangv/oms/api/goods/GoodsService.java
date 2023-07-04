@@ -5,8 +5,8 @@
 package com.tangv.oms.api.goods;
 
 import com.github.pagehelper.PageInfo;
-import com.tangv.oms.facade.goods.dto.GoodsSearchDTO;
-import com.tangv.oms.facade.goods.vo.GoodsVo;
+import com.tangv.oms.facade.domain.goods.dto.GoodsSearchDTO;
+import com.tangv.oms.facade.domain.goods.vo.GoodsVo;
 
 import java.util.Collection;
 

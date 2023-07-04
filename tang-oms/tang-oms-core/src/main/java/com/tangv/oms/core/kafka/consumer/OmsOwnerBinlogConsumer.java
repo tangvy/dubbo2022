@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * 任何表的binlog kafka消息只需直接调用BinlogConsumeHandlerService的consumeBinlog()方法
  */
 @Component
-@KafkaListener(id = "tangv", groupId = "tangv_group", autoStartup = "${spring.kafka.consumer.autoStartup}", topics = "canal-binlog")
+//@KafkaListener(id = "tangv", groupId = "tangv_group", autoStartup = "${spring.kafka.consumer.autoStartup}", topics = "canal-binlog")
 public class OmsOwnerBinlogConsumer extends AbstractKafkaListener {
 
     @Resource
