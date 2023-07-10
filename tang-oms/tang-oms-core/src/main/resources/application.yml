@@ -94,5 +94,5 @@ dubbo:
     address: zookeeper://${zookeeper.address:127.0.0.1}:2181
 
 oss:
-  access-key-id: LTAI5tMnjYswn8DfGy36LYew
-  access-key-secret: pahvCgbdUVRLwIv5xwBz4LSVIW5lw2
+  access-key-id:
+  access-key-secret:
