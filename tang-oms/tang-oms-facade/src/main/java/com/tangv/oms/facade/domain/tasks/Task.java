@@ -15,6 +15,6 @@ public interface Task {
 
     TaskTypeEnum taskType();
 
-    TaskStatusEnum excute(TaskInfo taskInfo);
+    TaskResult excute(TaskInfo taskInfo);
 
 }

@@ -4,23 +4,37 @@
  */
 package com.tangv.oms.core.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.alibaba.excel.write.metadata.WriteSheet;
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.model.AppendObjectRequest;
+import com.aliyun.oss.model.AppendObjectResult;
+import com.aliyun.oss.model.ObjectMetadata;
+import com.aliyun.oss.model.PutObjectResult;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangv.oms.api.order.OmsOrderService;
+import com.tangv.oms.core.consts.CommonConstants;
 import com.tangv.oms.core.dao.OmsOrderMapper;
 import com.tangv.oms.core.model.entity.OmsOrder;
 import com.tangv.oms.facade.domain.order.dto.OrderDownloadDto;
 import com.tangv.oms.facade.domain.order.vo.OrderVo;
+import com.tangv.oms.facade.domain.tasks.UploadOssResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.core.annotation.Order;
 
 import javax.annotation.Resource;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -45,6 +59,9 @@ public class OmsOrderServiceImpl implements OmsOrderService {
     @Resource
     private ExecutorService taskPoolExecutor;
 
+    @Resource
+    private OSS ossClient;
+
     @Override
     public OrderVo queryOrderByCode(String orderCode) {
         OrderVo orderVo = new OrderVo();
@@ -54,14 +71,15 @@ public class OmsOrderServiceImpl implements OmsOrderService {
     }
 
     @Override
-    public void downloadOrder(OrderDownloadDto orderDownloadDto) {
+    public UploadOssResult downloadOrder(OrderDownloadDto orderDownloadDto) {
         Integer type = orderDownloadDto.getType();
-        String fileName = PATH + System.currentTimeMillis() + ".xlsx";
+        String fileName = PATH + "ORDER-" + System.currentTimeMillis() + ".xlsx";
         ExcelWriter excelWriter = EasyExcel.write(fileName, OrderVo.class).build();
         WriteSheet writeSheet = EasyExcel.writerSheet().sheetName("SHEET1").sheetNo(1).build();
-        try {
+        return uploadToOss(orderDownloadDto);
+        /*try {
             if (type == null) {
-                download3(orderDownloadDto, excelWriter, writeSheet);
+                uploadToOss(orderDownloadDto);
                 return;
             }
             switch (type) {
@@ -77,7 +95,7 @@ public class OmsOrderServiceImpl implements OmsOrderService {
             }
         } finally {
             excelWriter.finish();
-        }
+        }*/
     }
 
     private void download1(OrderDownloadDto orderDownloadDto, ExcelWriter excelWriter, WriteSheet writeSheet) {
@@ -137,8 +155,50 @@ public class OmsOrderServiceImpl implements OmsOrderService {
             int finalSize = size;
             PageInfo<OrderVo> orderVoPageInfo = queryPage(orderDownloadDto, finalSize, finalEach + 1);
             List<OrderVo> orderVoList = orderVoPageInfo.getList();
-            excelWriter.write(orderVoList, writeSheet);
+            WriteSheet writeSheetEach = EasyExcel.writerSheet().sheetName("SHEET" + (each + 1)).sheetNo(each + 1).build();
+            excelWriter.write(orderVoList, writeSheetEach);
         }
+    }
+
+    private UploadOssResult uploadToOss(OrderDownloadDto orderDownloadDto) {
+        UploadOssResult uploadOssResult = new UploadOssResult();
+        uploadOssResult.setIsSuccess(false);
+        int countOrder = countOrder(orderDownloadDto);
+        int size = QUERY_MAX_SIZE;
+        int loop = countOrder/size;
+        boolean remainder = countOrder % size > 0;
+        if (remainder) {
+            loop = loop + 1;
+        }
+
+        String fileName = "excels/" + "ORDER-" + System.currentTimeMillis() + ".xlsx";
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try (ExcelWriter excelWriter = EasyExcel.write(outputStream, Order.class).build()) {
+            WriteSheet writeSheet = EasyExcel.writerSheet(0).build();
+            for (int each = 0; each < loop; each++) {
+                int finalEach = each;
+                if (remainder && finalEach == loop - 1) {
+                    size = countOrder % size;
+                }
+                int finalSize = size;
+                PageInfo<OrderVo> orderVoPageInfo = queryPage(orderDownloadDto, finalSize, finalEach + 1);
+                List<OrderVo> orderVoList = orderVoPageInfo.getList();
+                writeSheet.setSheetNo(each);
+                writeSheet.setSheetName("sheet" + writeSheet.getSheetNo());
+                excelWriter.write(orderVoList, writeSheet);
+            }
+        }
+        InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        PutObjectResult putObjectResult = ossClient.putObject(CommonConstants.BUCKET, fileName, inputStream);
+        uploadOssResult.setIsSuccess(true);
+        uploadOssResult.setFileId(CommonConstants.OSS_FILE_PREFIX + fileName);
+        try {
+            inputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return uploadOssResult;
     }
 
     @Override

@@ -9,6 +9,8 @@ import com.tangv.oms.api.order.OmsOrderService;
 import com.tangv.oms.facade.domain.order.dto.OrderDownloadDto;
 import com.tangv.oms.facade.domain.tasks.Task;
 import com.tangv.oms.facade.domain.tasks.TaskInfo;
+import com.tangv.oms.facade.domain.tasks.TaskResult;
+import com.tangv.oms.facade.domain.tasks.UploadOssResult;
 import com.tangv.oms.facade.enums.tasks.TaskStatusEnum;
 import com.tangv.oms.facade.enums.tasks.TaskTypeEnum;
 import org.springframework.stereotype.Component;
@@ -31,11 +33,18 @@ public class OrderDownloadTask implements Task {
     }
 
     @Override
-    public TaskStatusEnum excute(TaskInfo taskInfo) {
+    public TaskResult excute(TaskInfo taskInfo) {
         OrderDownloadDto orderDownloadDto = JsonUtils.parseObject(taskInfo.getParam(), OrderDownloadDto.class);
         //1.查询订单数据，需要分页查询，考虑是否可以分批上传，考虑是否可以多线程查询
         //2.
-        omsOrderService.downloadOrder(orderDownloadDto);
-        return TaskStatusEnum.SUCCESS;
+        TaskStatusEnum taskStatus = TaskStatusEnum.FAILED;
+        UploadOssResult uploadOssResult = omsOrderService.downloadOrder(orderDownloadDto);
+        if (uploadOssResult.getIsSuccess()) {
+            taskStatus = TaskStatusEnum.SUCCESS;
+        }
+        TaskResult taskResult = new TaskResult();
+        taskResult.setTaskResultInfo(uploadOssResult);
+        taskResult.setTaskStatus(taskStatus);
+        return taskResult;
     }
 }

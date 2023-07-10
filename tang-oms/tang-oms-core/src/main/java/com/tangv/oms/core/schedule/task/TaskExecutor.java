@@ -9,7 +9,10 @@ import cn.hutool.core.util.StrUtil;
 import com.tangv.oms.api.order.TStreamTaskService;
 import com.tangv.oms.facade.domain.tasks.Task;
 import com.tangv.oms.facade.domain.tasks.TaskInfo;
+import com.tangv.oms.facade.domain.tasks.TaskResult;
+import com.tangv.oms.facade.domain.tasks.TaskResultInfo;
 import com.tangv.oms.facade.domain.tasks.TaskUpdateDto;
+import com.tangv.oms.facade.domain.tasks.UploadOssResult;
 import com.tangv.oms.facade.enums.tasks.TaskStatusEnum;
 import com.tangv.oms.facade.enums.tasks.TaskTypeEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +44,7 @@ public class TaskExecutor implements ApplicationContextAware {
 
     private static final int BASE = 2;
 
-    private static final int BASE_SECOND = 120*1000;
+    private static final int BASE_MILLS = 120*1000;
     
     @Resource
     private TStreamTaskService tStreamTaskService;
@@ -84,24 +87,21 @@ public class TaskExecutor implements ApplicationContextAware {
     }
 
     private void excuteTask(Task task, TaskInfo taskInfo) {
+        TaskResult taskResult = null;
         TaskStatusEnum status = null;
-        String remark = "SUCCESS";
+        String remark = StrUtil.EMPTY;
         Date nextRequestTime = new Date();
         StopWatch stopWatch = new StopWatch(taskInfo.getTaskId().toString());
         stopWatch.start();
         try {
-            status = task.excute(taskInfo);
+            taskResult = task.excute(taskInfo);
+            status = taskResult.getTaskStatus();
         } catch (Exception e) {
-            //计算下次重试时间
-            long delay = (long) Math.pow(BASE, taskInfo.getVersion()) * BASE_SECOND;
+            //计算下次重试时间，延迟的时间会指数级增长
+            long delay = (long) Math.pow(BASE, taskInfo.getVersion()) * BASE_MILLS;
             nextRequestTime = new Date(nextRequestTime.getTime() + delay);
             //单个任务执行异常并且达到最大重试次数，则设置为执行失败
-            if (taskInfo.getVersion() >= MAX_RETRY) {
-                status = TaskStatusEnum.FAILED;
-            } else {
-                //单个任务执行异常则设置为等待中
-                status = TaskStatusEnum.WAIT;
-            }
+            status = (taskInfo.getVersion() + 1) >= MAX_RETRY ? TaskStatusEnum.FAILED : TaskStatusEnum.WAIT;
             remark = getWriteLogByException(e);
             e.printStackTrace();
         } finally {
@@ -109,13 +109,8 @@ public class TaskExecutor implements ApplicationContextAware {
             double cost = stopWatch.getTotalTimeSeconds();
             log.info("任务{}, 耗时：{}", taskInfo.getTaskId(), cost);
             //更新任务状态
-            TaskUpdateDto taskUpdateDto = new TaskUpdateDto();
-            taskUpdateDto.setTaskId(taskInfo.getTaskId());
-            taskUpdateDto.setTargetStatus(status.getCode());
-            taskUpdateDto.setRemark(remark);
-            taskUpdateDto.setCost(cost);
-            taskUpdateDto.setVersion(taskInfo.getVersion() + 1);
-            taskUpdateDto.setNextRequestTime(nextRequestTime);
+            TaskUpdateDto taskUpdateDto =
+                    convertTaskUpdate(taskInfo, taskResult.getTaskResultInfo(), status, remark, cost, nextRequestTime);
             tStreamTaskService.updateStatusById(taskUpdateDto);
         }
     }
@@ -131,5 +126,26 @@ public class TaskExecutor implements ApplicationContextAware {
         e.printStackTrace(new PrintWriter(sw, true));
         String remark = sw.getBuffer().toString();
         return (StrUtil.isEmpty(remark) || remark.length() < 1000) ? remark : remark.substring(0, 1000);
+    }
+
+    private TaskUpdateDto convertTaskUpdate(TaskInfo taskInfo, TaskResultInfo taskResultInfo, TaskStatusEnum status, String remark, Double cost, Date nextRequestTime) {
+        TaskUpdateDto taskUpdateDto = new TaskUpdateDto();
+        taskUpdateDto.setTaskId(taskInfo.getTaskId());
+        taskUpdateDto.setTargetStatus(status.getCode());
+        taskUpdateDto.setRemark(remark);
+        taskUpdateDto.setCost(cost);
+        taskUpdateDto.setVersion(taskInfo.getVersion() + 1);
+        taskUpdateDto.setNextRequestTime(nextRequestTime);
+        handleTaskResultInfo(taskResultInfo, taskUpdateDto);
+        return taskUpdateDto;
+    }
+
+    private void handleTaskResultInfo(TaskResultInfo taskResultInfo, TaskUpdateDto taskUpdateDto) {
+        if (taskResultInfo instanceof UploadOssResult) {
+            UploadOssResult uploadOssResult = (UploadOssResult) taskResultInfo;
+            if (uploadOssResult.getIsSuccess()) {
+                taskUpdateDto.setFileId(uploadOssResult.getFileId());
+            }
+        }
     }
 }

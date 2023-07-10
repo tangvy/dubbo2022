@@ -12,4 +12,8 @@ public interface CommonConstants {
 
     String ENV_PROD = "prod";
 
+    String BUCKET = "tang-file-store";
+
+    String OSS_FILE_PREFIX = "https://tang-file-store.oss-cn-hangzhou.aliyuncs.com/";
+
 }

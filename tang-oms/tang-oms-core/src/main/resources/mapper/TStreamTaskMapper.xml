@@ -12,7 +12,7 @@
     </update>
     <update id="updateStatusById">
         update t_stream_task
-        set task_status = #{targetStatus}, version = #{version}, remark = #{remark}, cost_time = #{cost}, next_request_time = #{nextRequestTime}
+        set task_status = #{targetStatus}, file_id = #{fileId}, version = #{version}, remark = #{remark}, cost_time = #{cost}, next_request_time = #{nextRequestTime}
         where task_id = #{taskId}
     </update>
     <select id="findWaitTasks" resultType="com.tangv.oms.facade.domain.order.vo.TStreamTaskVo">

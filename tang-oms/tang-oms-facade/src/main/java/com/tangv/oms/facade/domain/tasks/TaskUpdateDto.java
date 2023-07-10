@@ -20,6 +20,8 @@ public class TaskUpdateDto implements Serializable {
 
     private Integer targetStatus;
 
+    private String fileId;
+
     private String remark;
 
     private Double cost;

@@ -46,6 +46,7 @@ public class TStreamTaskServiceImpl implements TStreamTaskService {
     @Override
     public int updateStatusById(TaskUpdateDto taskUpdateDto) {
         return tStreamTaskMapper.updateStatusById(taskUpdateDto.getTaskId(), taskUpdateDto.getTargetStatus(),
+                taskUpdateDto.getFileId(),
                 taskUpdateDto.getRemark(), taskUpdateDto.getCost(), taskUpdateDto.getNextRequestTime(), taskUpdateDto.getVersion());
     }
 }

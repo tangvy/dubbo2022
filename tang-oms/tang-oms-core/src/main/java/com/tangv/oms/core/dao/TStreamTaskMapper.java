@@ -13,6 +13,6 @@ public interface TStreamTaskMapper extends BaseMapper<TStreamTask> {
 
     int updateStatusByIds(List<Long> taskIdList, Integer prevStatus, Integer targetStatus);
 
-    int updateStatusById(Long taskId, Integer targetStatus, String remark, Double cost, Date nextRequestTime, Integer version);
+    int updateStatusById(Long taskId, Integer targetStatus, String fileId, String remark, Double cost, Date nextRequestTime, Integer version);
 
 }

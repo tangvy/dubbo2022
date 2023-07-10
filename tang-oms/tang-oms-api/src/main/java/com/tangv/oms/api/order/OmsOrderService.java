@@ -9,6 +9,7 @@ package com.tangv.oms.api.order;
 import com.github.pagehelper.PageInfo;
 import com.tangv.oms.facade.domain.order.dto.OrderDownloadDto;
 import com.tangv.oms.facade.domain.order.vo.OrderVo;
+import com.tangv.oms.facade.domain.tasks.UploadOssResult;
 
 /**
  * @author tang wei
@@ -18,7 +19,7 @@ public interface OmsOrderService {
 
     OrderVo queryOrderByCode(String orderCode);
 
-    void downloadOrder(OrderDownloadDto orderDownloadDto);
+    UploadOssResult downloadOrder(OrderDownloadDto orderDownloadDto);
 
     Integer countOrder(OrderDownloadDto orderDownloadDto);
 
